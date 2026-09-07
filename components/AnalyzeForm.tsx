@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
 
-const EXAMPLES = ["stripe.com", "vercel.com", "linear.app"];
+const EXAMPLES = ["stripe.com", "vercel.com", "linear.app", "bilalmlkdev.vercel.app"];
 
 export function AnalyzeForm() {
   const [url, setUrl] = useState("");
