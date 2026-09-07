@@ -14,6 +14,7 @@
 
 
   [![Metaviewer Dashboard](https://raw.githubusercontent.com/bilalmlkdev/Metaviewer/main/public/preview.png)](https://metaviewer.vercel.app/)
+ [![Metaviewer Result Page](https://raw.githubusercontent.com/bilalmlkdev/Metaviewer/main/public/resultPagePreview.png)](https://metaviewer.vercel.app/)
 
 </div>
 
