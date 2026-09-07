@@ -1,13 +1,19 @@
-<p align="center">
-  <a href="https://metaviewer.vercel.app/">
-    <img src="./public/preview.png" alt="Metaviewer Preview">
-  </a>
-</p>
 
-<!-- Dark theme (will show when GitHub is in Dark mode) -->
+<div align="center">
+
+  <a href="https://metaviewer.vercel.app/">
+    <img src="https://raw.githubusercontent.com/bilalmlkdev/metaviewer/main/public/favicon.svg" alt="metaviewer logo" width="100%" height="120">
+  </a>
+
+  # Metaviewer
+
+  [![metaviewer Dashboard](https://raw.githubusercontent.com/bilalmlkdev/metaviewer/main/public/preview.png)](https://metaviewer.vercel.app/)
+
+</div>
+
 [![Live Demo](https://img.shields.io/badge/Live_Demo-▶-818cf8?style=flat&labelColor=4b5563#gh-dark-mode-only)](https://metaviewer.vercel.app)
 
-# Metaviewer
+# What is Metaviewer?
 
 Metaviewer is a link-preview and meta-tag analyzer, in the spirit of
 opengraph.xyz. Paste in any URL and get:
@@ -172,12 +178,6 @@ build` (Next.js 14.2.35, strict TypeScript, `noUncheckedIndexedAccess` on.
 5. Keep `lib/analyzer.ts` as the single scoring source of truth - tabs read
    `result.checks` / `result.categoryScores`, they never recompute pass/fail.
 
-## Deploy
-
-Deployed on Vercel. Push to your repo and import it in the Vercel dashboard - no config needed, it's a standard Vite app.
-
-If you enjoyed this project, consider giving it a ⭐ on GitHub. It helps others discover the project and motivates future improvements.
-
 # License (MIT)
 
 This project is licensed under the MIT License.
@@ -205,18 +205,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-
-## Author
-
-<img src="https://github.com/byllzz.png" width="80" height="80" alt="Bilal Malik" />
-
-### Bilal Malik
-
-[![Twitter](https://img.shields.io/badge/@bilalmlkdev-1DA1F2?style=flat-square&logo=twitter&logoColor=white)](https://x.com/bilalmlkdev)
-[![GitHub](https://img.shields.io/badge/byllzz-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/byllzz)
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=flat-square&logo=vercel&logoColor=white)](https://bilalmlkdev.vercel.app)
-
-**Metaview** | See what matters in your website, with clear, actionable insights.
-
-© 2026 Metaview. All rights reserved.
-

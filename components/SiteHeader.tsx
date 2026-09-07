@@ -23,7 +23,7 @@ export function SiteHeader() {
       <div className="flex items-center gap-2">
         <ThemeToggle />
         <a
-          href="https://github.com/byllzz/Metaviewer"
+          href="https://github.com/bilalmlkdev/Metaviewer"
           target="_blank"
           rel="noreferrer"
           className="h-9 flex items-center gap-2 px-3 rounded-md border border-border text-sm text-fg hover:bg-fg/5 transition-colors"

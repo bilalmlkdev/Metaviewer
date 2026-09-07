@@ -198,7 +198,7 @@ export default function HomePage() {
           </div>
           <div className="flex gap-2">
             <a
-              href="https://github.com/byllzz/Metaviewer"
+              href="https://github.com/bilalmlkdev"
               target="_blank"
               rel="noreferrer"
               className="h-9 w-9 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg transition-colors"

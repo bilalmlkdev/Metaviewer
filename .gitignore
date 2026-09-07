@@ -9,3 +9,5 @@ npm-debug.log*
 next-env.d.ts
 AI_HANDOFF.md
 .vscode
+.vite/
+.vite/deps
