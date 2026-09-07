@@ -1,18 +1,21 @@
 <div align="center">
 
   <a href="https://metaviewer.vercel.app/">
-    <img src="https://raw.githubusercontent.com/bilalmlkdev/metaviewer/main/public/favicon.svg" alt="Metaviewer logo" width="100%" height="120">
+    <img src="https://raw.githubusercontent.com/bilalmlkdev/Metaviewer/main/public/favicon.svg" alt="Metaviewer logo" width="100%" height="120">
   </a>
 
   # Metaviewer
 
   Free, open-source link preview & meta tag analyzer. See how your URL renders on Google, X, LinkedIn, <br> Discord, Slack, WhatsApp, Telegram, Facebook & iMessage - with a 0–100 score, real decoded image dimensions, and copy-paste fixes. No signup, no database.
 
-  [![Metaviewer Dashboard](https://raw.githubusercontent.com/bilalmlkdev/metaviewer/main/public/preview.png)](https://metaviewer.vercel.app/)
+  [![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-black?style=for-the-badge)](https://metaviewer.vercel.app)
+[![GitHub Stars](https://img.shields.io/github/stars/bilalmlkdev/Metaviewer?style=for-the-badge&logo=github&color=yellow)](https://github.com/bilalmlkdev/Metaviewer.git)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
+
+
+  [![Metaviewer Dashboard](https://raw.githubusercontent.com/bilalmlkdev/Metaviewer/main/public/preview.png)](https://metaviewer.vercel.app/)
 
 </div>
-
-[![Live Demo](https://img.shields.io/badge/Live_Demo-▶-818cf8?style=flat&labelColor=4b5563#gh-dark-mode-only)](https://metaviewer.vercel.app)
 
 # The Problem This Solves
 
