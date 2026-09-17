@@ -87,13 +87,14 @@ export function OpenGraphTab({ result }: { result: AnalysisResult }) {
               <h3 className="font-medium">og:image Preview</h3>
             </div>
             <div className="flex items-center gap-1.5">
-              <button onClick={copyImage} className="h-8 w-8 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg">
+              <button onClick={copyImage} aria-label="Copy og:image URL" className="h-8 w-8 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg">
                 {copied ? <StatusIcon status="pass" size={14} /> : <Copy size={14} />}
               </button>
               <a
                 href={og["og:image"]}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="Open og:image in new tab"
                 className="h-8 w-8 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg"
               >
                 <ExternalLink size={14} />
@@ -106,7 +107,7 @@ export function OpenGraphTab({ result }: { result: AnalysisResult }) {
             alt="og:image preview"
             className="w-full max-h-96 object-contain rounded-lg border border-border bg-background"
           />
-          <p className="text-xs text-muted mt-2 break-all font-mono">{og["og:image"]}</p>
+          <p className="text-xs text-muted mt-2 break-words font-mono">{og["og:image"]}</p>
         </div>
       )}
 

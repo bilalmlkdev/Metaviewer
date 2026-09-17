@@ -76,7 +76,7 @@ function AnalyzingScreen() {
     <div className="min-h-screen flex flex-col items-center justify-center gap-8 text-center px-6">
       <div className="relative h-16 w-16">
         <div className="absolute inset-0 rounded-full border-2 border-border" />
-        <div className="absolute inset-0 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+        <div className="absolute inset-0 rounded-full border-2 border-accent border-t-transparent animate-spin motion-reduce:animate-none" />
         <div className="absolute inset-0 flex items-center justify-center text-accent">
           <ScanSearch size={22} />
         </div>

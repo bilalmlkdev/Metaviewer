@@ -20,6 +20,14 @@ function slug(result: AnalysisResult): string {
   }
 }
 
+/** Prevent CSV injection by prefixing dangerous formulas */
+function sanitizeCsvCell(value: string): string {
+  if (/^[=+\-@\t\r]/.test(value)) {
+    value = "'" + value;
+  }
+  return `"${value.replace(/"/g, '""')}"`;
+}
+
 export function exportAsJson(result: AnalysisResult) {
   download(`metaview-${slug(result)}.json`, JSON.stringify(result, null, 2), "application/json");
 }
@@ -29,13 +37,7 @@ export function exportAsCsv(result: AnalysisResult) {
   result.checks.forEach((c) => {
     rows.push([c.category, c.label, c.status, c.message, c.value ?? ""]);
   });
-  const csv = rows
-    .map((row) =>
-      row
-        .map((cell) => `"${String(cell).replace(/"/g, '""')}"`)
-        .join(",")
-    )
-    .join("\n");
+  const csv = rows.map((row) => row.map(sanitizeCsvCell).join(",")).join("\n");
   download(`metaview-${slug(result)}.csv`, csv, "text/csv");
 }
 
@@ -64,7 +66,8 @@ function escapeHtml(str: string): string {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 export async function exportAsPng(node: HTMLElement, result: AnalysisResult) {
@@ -76,8 +79,5 @@ export async function exportAsPng(node: HTMLElement, result: AnalysisResult) {
       ? `rgb(${getComputedStyle(document.documentElement).getPropertyValue("--color-background")})`
       : "#0a0a0a",
   });
-  const a = document.createElement("a");
-  a.href = dataUrl;
-  a.download = `metaview-${slug(result)}-score.png`;
-  a.click();
+  download(`metaview-${slug(result)}-score.png`, dataUrl.split(",")[1] ?? dataUrl, "image/png");
 }

@@ -6,12 +6,14 @@ import { getStoredTheme, setStoredTheme } from "@/lib/localHistory";
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const current = document.documentElement.classList.contains("light")
       ? "light"
       : "dark";
     setTheme(current);
+    setMounted(true);
   }, []);
 
   function toggle() {
@@ -20,6 +22,12 @@ export function ThemeToggle() {
     document.documentElement.classList.remove("dark", "light");
     document.documentElement.classList.add(next);
     setStoredTheme(next);
+  }
+
+  if (!mounted) {
+    return (
+      <span className="h-9 w-9 flex items-center justify-center rounded-md border border-border" />
+    );
   }
 
   return (

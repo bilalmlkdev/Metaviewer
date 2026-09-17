@@ -132,6 +132,7 @@ export function BasicTab({ result }: { result: AnalysisResult }) {
 
         <button
           onClick={() => setRobotsOpen((v) => !v)}
+          aria-expanded={robotsOpen}
           className="w-full flex items-center justify-between mt-3 px-4 py-3 rounded-lg border border-border bg-background text-sm"
         >
           <span className="flex items-center gap-2">
@@ -146,13 +147,14 @@ export function BasicTab({ result }: { result: AnalysisResult }) {
         {robotsOpen && (
           <p className="text-xs text-muted px-4 py-2 tab-panel">
             {meta.robotsTxt.found
-              ? `Found at ${new URL(meta.finalUrl).origin}/robots.txt.`
+              ? `Found at ${(() => { try { return new URL(meta.finalUrl).origin } catch { return "" } })()}/robots.txt.`
               : "No robots.txt was found at the site root - crawlers will assume everything is allowed."}
           </p>
         )}
 
         <button
           onClick={() => setSitemapOpen((v) => !v)}
+          aria-expanded={sitemapOpen}
           className="w-full flex items-center justify-between mt-2 px-4 py-3 rounded-lg border border-border bg-background text-sm"
         >
           <span className="flex items-center gap-2">
@@ -167,7 +169,7 @@ export function BasicTab({ result }: { result: AnalysisResult }) {
         {sitemapOpen && (
           <p className="text-xs text-muted px-4 py-2 tab-panel">
             {meta.sitemap.found
-              ? `Found at ${new URL(meta.finalUrl).origin}/sitemap.xml.`
+              ? `Found at ${(() => { try { return new URL(meta.finalUrl).origin } catch { return "" } })()}/sitemap.xml.`
               : "No sitemap.xml was found at the site root."}
           </p>
         )}

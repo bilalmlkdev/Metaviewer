@@ -27,11 +27,15 @@ export function AnalyzeForm() {
         }}
         className="flex items-center gap-3 w-full max-w-4xl"
       >
+        <label htmlFor="analyze-url" className="sr-only">
+          URL to analyze
+        </label>
         <input
+          id="analyze-url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter any URL to analyze…"
-          className="flex-1 h-10  rounded-lg bg-fg/5 border border-border px-4 text-sm placeholder:text-muted focus:outline-none focus:border-accent/60 transition-colors"
+          className="flex-1 h-10 rounded-lg bg-fg/5 border border-border px-4 text-sm placeholder:text-muted focus:outline-none focus:border-accent/60 transition-colors"
         />
         <button
           type="submit"
@@ -54,6 +58,7 @@ export function AnalyzeForm() {
           <button
             key={ex}
             onClick={() => submit(ex)}
+            aria-label={`Analyze ${ex}`}
             className="text-accent hover:underline"
             type="button"
             disabled={navigating}

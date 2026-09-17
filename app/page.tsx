@@ -183,7 +183,7 @@ export default function HomePage() {
       </section>
 
 
-      <footer className="mt-auto w-full max-w-[1150px] mx-auto border-t border-border/60 px-8 py-10">
+      <footer className="mt-auto w-full max-w-[1100px] mx-auto border-t border-border/60 px-8 py-10">
         <div className="flex items-start justify-between flex-wrap gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -201,7 +201,8 @@ export default function HomePage() {
               href="https://github.com/bilalmlkdev"
               target="_blank"
               rel="noreferrer"
-              className="h-9 w-9 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg transition-colors"
+              aria-label="GitHub"
+              className="h-9 w-9 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-accent/60 transition-colors"
             >
               <Github size={16} />
             </a>
@@ -209,7 +210,8 @@ export default function HomePage() {
               href="https://twitter.com/bilalmlkdev"
               target="_blank"
               rel="noreferrer"
-              className="h-9 w-9 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg transition-colors"
+              aria-label="Twitter"
+              className="h-9 w-9 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-accent/60 transition-colors"
             >
               <Twitter size={16} />
             </a>
@@ -224,7 +226,7 @@ export default function HomePage() {
               "linear-gradient(to bottom, black 0%, black 40%, transparent 90%)",
           }}
         >
-          <span className="text-[80px] sm:text-[120px] md:text-[200px] font-extrabold font-DM tracking-tighter text-gray-200">
+          <span className="text-[80px] sm:text-[120px] md:text-[200px] font-extrabold font-DM tracking-tighter text-fg/[0.04]">
             Metaviewer
           </span>
         </div>

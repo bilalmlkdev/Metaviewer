@@ -19,7 +19,14 @@ export function CategoryBars({ categories }: { categories: CategoryScore[] }) {
             <div className="text-base font-medium mb-2">
               {c.earned}/{c.possible}
             </div>
-            <div className="h-1.5 rounded-full bg-fg/5 overflow-hidden">
+            <div
+              role="progressbar"
+              aria-valuenow={Math.round(pct)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`${c.label}: ${Math.round(pct)}%`}
+              className="h-1.5 rounded-full bg-fg/5 overflow-hidden"
+            >
               <div
                 className={clsx("h-full rounded-full", barColor(pct))}
                 style={{ width: `${Math.max(pct, 3)}%` }}

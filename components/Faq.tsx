@@ -47,6 +47,8 @@ export function Faq() {
         <div key={item.q}>
           <button
             onClick={() => setOpen(open === i ? null : i)}
+            aria-expanded={open === i}
+            aria-controls={`faq-answer-${i}`}
             className="w-full flex items-center justify-between py-4 text-left"
           >
             <span className="font-medium text-fg">{item.q}</span>
@@ -58,7 +60,9 @@ export function Faq() {
             />
           </button>
           {open === i && (
-            <p className="text-sm text-muted pb-4 pr-8">{item.a}</p>
+            <p id={`faq-answer-${i}`} role="region" className="text-sm text-muted pb-4 pr-8">
+              {item.a}
+            </p>
           )}
         </div>
       ))}

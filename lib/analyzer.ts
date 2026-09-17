@@ -498,7 +498,7 @@ export function analyze(meta: ExtractedMeta, id: string): AnalysisResult {
     checks,
     categoryScores,
     totalScore: Math.round(pct),
-    maxScore: 100,
+    maxScore,
     grade,
     summary: summaryFor(grade),
   };

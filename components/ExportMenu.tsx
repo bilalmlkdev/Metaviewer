@@ -24,8 +24,15 @@ export function ExportMenu({
         setOpen(false);
       }
     }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
     document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, []);
 
   async function handlePng() {
@@ -55,15 +62,21 @@ export function ExportMenu({
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setOpen((v) => !v)}
+        aria-haspopup="true"
+        aria-expanded={open}
         className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-md border border-border text-sm text-muted hover:text-fg transition-colors"
       >
         <Download size={14} /> Export
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-56 rounded-md border border-border bg-surface shadow-xl z-20 py-1 tab-panel">
+        <div
+          role="menu"
+          className="absolute right-0 mt-2 w-56 rounded-md border border-border bg-surface shadow-xl z-20 py-1 tab-panel"
+        >
           {items.map((item) => (
             <button
               key={item.id}
+              role="menuitem"
               onClick={() => handleItemClick(item)}
               className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-muted hover:text-fg hover:bg-fg/5 text-left transition-colors"
             >

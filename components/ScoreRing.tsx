@@ -16,14 +16,18 @@ export function ScoreRing({ score, grade }: { score: number; grade: Grade }) {
   const offset = circumference * (1 - score / 100);
 
   return (
-    <div className="relative h-24 w-24 shrink-0">
+    <div
+      className="relative h-24 w-24 shrink-0"
+      role="img"
+      aria-label={`Score: ${score} out of 100, Grade: ${grade}`}
+    >
       <svg viewBox="0 0 80 80" className="h-24 w-24 -rotate-90">
         <circle
           cx="40"
           cy="40"
           r={radius}
           fill="none"
-          stroke="rgba(255,255,255,0.08)"
+          className="stroke-fg/[0.08]"
           strokeWidth="6"
         />
         <circle

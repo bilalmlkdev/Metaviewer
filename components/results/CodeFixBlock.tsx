@@ -2,18 +2,27 @@
 
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 const TABS = ["HTML", "Next.js"] as const;
 
 export function CodeFixBlock({ html, nextjs }: { html: string; nextjs: string }) {
   const [tab, setTab] = useState<(typeof TABS)[number]>("HTML");
   const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const code = tab === "HTML" ? html : nextjs;
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   async function copy() {
     await navigator.clipboard.writeText(code);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1200);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setCopied(false), 1200);
   }
 
   return (
@@ -21,10 +30,12 @@ export function CodeFixBlock({ html, nextjs }: { html: string; nextjs: string })
       <p className="text-sm font-medium mb-2">Fix suggestions</p>
       <div className="rounded-lg border border-border bg-background overflow-hidden">
         <div className="flex items-center justify-between px-3 py-2 border-b border-border/60">
-          <div className="flex items-center gap-1">
+          <div role="tablist" className="flex items-center gap-1">
             {TABS.map((t) => (
               <button
                 key={t}
+                role="tab"
+                aria-selected={tab === t}
                 onClick={() => setTab(t)}
                 className={`px-2.5 h-7 rounded-md text-xs transition-colors ${
                   tab === t ? "bg-fg/10 text-fg" : "text-muted hover:text-fg"
@@ -36,6 +47,7 @@ export function CodeFixBlock({ html, nextjs }: { html: string; nextjs: string })
           </div>
           <button
             onClick={copy}
+            aria-label={`Copy ${tab} code to clipboard`}
             className="flex items-center gap-1 text-xs text-muted hover:text-fg"
           >
             {copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}

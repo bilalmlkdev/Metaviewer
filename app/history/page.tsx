@@ -29,7 +29,7 @@ export default function HistoryPage() {
       <main className="px-6 py-10 max-w-3xl mx-auto w-full flex-1">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-muted hover:text-fg">
+            <Link href="/" className="text-muted hover:text-fg" aria-label="Go back to homepage">
               <ArrowLeft size={18} />
             </Link>
             <h1 className="font-serif text-2xl">History</h1>
@@ -37,6 +37,7 @@ export default function HistoryPage() {
           {entries.length > 0 && (
             <button
               onClick={() => {
+                if (!confirm("Clear all history? This cannot be undone.")) return;
                 clearHistory();
                 setEntries([]);
               }}
@@ -78,6 +79,7 @@ export default function HistoryPage() {
                   href={e.finalUrl}
                   target="_blank"
                   rel="noreferrer"
+                  aria-label={`Open ${e.finalUrl} in new tab`}
                   className="h-8 w-8 flex items-center justify-center rounded-md text-muted hover:text-fg"
                 >
                   <ExternalLink size={14} />
@@ -87,6 +89,7 @@ export default function HistoryPage() {
                     removeFromHistory(e.id);
                     setEntries((prev) => prev.filter((x) => x.id !== e.id));
                   }}
+                  aria-label={`Delete ${e.finalUrl}`}
                   className="h-8 w-8 flex items-center justify-center rounded-md text-muted hover:text-red-400"
                 >
                   <Trash2 size={14} />

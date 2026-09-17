@@ -171,12 +171,13 @@ export function ImagesTab({ result }: { result: AnalysisResult }) {
           <p className="text-sm text-muted mb-4">How your OG image will appear on each platform based on their ideal dimensions.</p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
+              <caption className="sr-only">Platform Image Fit Comparison</caption>
               <thead>
                 <tr className="text-left text-muted border-b border-border/60">
-                  <th className="py-2 pr-4 font-normal">Platform</th>
-                  <th className="py-2 pr-4 font-normal">Ideal Size</th>
-                  <th className="py-2 pr-4 font-normal">Aspect Ratio</th>
-                  <th className="py-2 font-normal">Your Image Fit</th>
+                  <th scope="col" className="py-2 pr-4 font-normal">Platform</th>
+                  <th scope="col" className="py-2 pr-4 font-normal">Ideal Size</th>
+                  <th scope="col" className="py-2 pr-4 font-normal">Aspect Ratio</th>
+                  <th scope="col" className="py-2 font-normal">Your Image Fit</th>
                 </tr>
               </thead>
               <tbody>

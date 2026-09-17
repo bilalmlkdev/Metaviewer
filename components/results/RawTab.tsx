@@ -69,12 +69,13 @@ export function RawTab({ result }: { result: AnalysisResult }) {
         {view === "table" && (
           <div className="overflow-x-auto tab-panel">
             <table className="w-full text-sm">
+              <caption className="sr-only">All Meta Tags</caption>
               <thead>
                 <tr className="text-left text-muted border-b border-border/60">
-                  <th className="py-2 pr-4 font-normal w-10">#</th>
-                  <th className="py-2 pr-4 font-normal">Type</th>
-                  <th className="py-2 pr-4 font-normal">Name</th>
-                  <th className="py-2 font-normal">Value</th>
+                  <th scope="col" className="py-2 pr-4 font-normal w-10">#</th>
+                  <th scope="col" className="py-2 pr-4 font-normal">Type</th>
+                  <th scope="col" className="py-2 pr-4 font-normal">Name</th>
+                  <th scope="col" className="py-2 font-normal">Value</th>
                 </tr>
               </thead>
               <tbody>

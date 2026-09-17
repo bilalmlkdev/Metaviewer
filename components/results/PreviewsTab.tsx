@@ -25,6 +25,8 @@ export function PreviewsTab({ result }: { result: AnalysisResult }) {
           <button
             key={value}
             onClick={() => setFilter(value)}
+            role="radio"
+            aria-checked={filter === value}
             className={`px-3 h-8 rounded-md text-sm border transition-colors ${
               filter === value
                 ? "bg-fg text-background border-fg"

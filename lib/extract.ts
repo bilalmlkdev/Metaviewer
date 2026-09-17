@@ -33,14 +33,48 @@ function normalizeUrl(input: string): string {
   return parsed.toString();
 }
 
+const MAX_BODY_BYTES = 10 * 1024 * 1024; // 10 MB
+const MAX_AUX_BYTES = 512 * 1024; // 512 KB for robots.txt / sitemap.xml
+
 function isPrivateHost(hostname: string): boolean {
   const h = hostname.toLowerCase();
   if (h === "localhost" || h.endsWith(".local")) return true;
-  if (/^127\./.test(h) || h === "0.0.0.0" || h === "::1") return true;
+  if (/^127\./.test(h) || h === "0.0.0.0" || h === "::1" || h === "::") return true;
   if (/^10\./.test(h)) return true;
   if (/^192\.168\./.test(h)) return true;
   if (/^172\.(1[6-9]|2\d|3[0-1])\./.test(h)) return true;
+  if (/^169\.254\./.test(h)) return true; // link-local / cloud metadata
+  if (/^fc00:/i.test(h) || /^fe80:/i.test(h)) return true; // IPv6 ULA / link-local
   return false;
+}
+
+function safeFetchText(url: string, timeoutMs: number, maxBytes: number): Promise<string | undefined> {
+  return fetch(url, {
+    signal: AbortSignal.timeout(timeoutMs),
+    headers: { "User-Agent": USER_AGENT },
+  }).then(async (res) => {
+    if (!res.ok) return undefined;
+    const reader = res.body?.getReader();
+    if (!reader) return undefined;
+    const chunks: Uint8Array[] = [];
+    let total = 0;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        total += value.length;
+        if (total > maxBytes) {
+          reader.cancel();
+          return undefined;
+        }
+        chunks.push(value);
+      }
+    } catch {
+      return undefined;
+    }
+    const decoder = new TextDecoder();
+    return chunks.map((c) => decoder.decode(c, { stream: true })).join("") + decoder.decode();
+  }).catch(() => undefined);
 }
 
 /**
@@ -83,12 +117,8 @@ async function probeImage(url: string): Promise<ImageInfo | undefined> {
 
 async function checkRobotsTxt(origin: string): Promise<RobotsTxtInfo> {
   try {
-    const res = await fetch(`${origin}/robots.txt`, {
-      signal: AbortSignal.timeout(6000),
-      headers: { "User-Agent": USER_AGENT },
-    });
-    if (!res.ok) return { checked: true, found: false, allowsIndexing: true };
-    const text = await res.text();
+    const text = await safeFetchText(`${origin}/robots.txt`, 6000, MAX_AUX_BYTES);
+    if (!text) return { checked: true, found: false, allowsIndexing: true };
     const blocksAll = /User-agent:\s*\*[\s\S]*?Disallow:\s*\/\s*(\r?\n|$)/i.test(text);
     return { checked: true, found: true, allowsIndexing: !blocksAll };
   } catch {
@@ -98,12 +128,8 @@ async function checkRobotsTxt(origin: string): Promise<RobotsTxtInfo> {
 
 async function checkSitemap(origin: string): Promise<SitemapInfo> {
   try {
-    const res = await fetch(`${origin}/sitemap.xml`, {
-      signal: AbortSignal.timeout(6000),
-      headers: { "User-Agent": USER_AGENT },
-    });
-    if (!res.ok) return { checked: true, found: false };
-    const text = await res.text();
+    const text = await safeFetchText(`${origin}/sitemap.xml`, 6000, MAX_AUX_BYTES);
+    if (!text) return { checked: true, found: false };
     const matches = text.match(/<loc>/g);
     return { checked: true, found: true, urlCount: matches?.length ?? undefined };
   } catch {
@@ -172,7 +198,42 @@ export async function extractMeta(rawUrl: string): Promise<ExtractedMeta> {
     throw new FetchError(`Site responded with HTTP ${res.status}.`);
   }
 
-  const html = await res.text();
+  // Validate that the final URL after redirects is not targeting a private host
+  if (res.url) {
+    try {
+      const finalParsed = new URL(res.url);
+      if (isPrivateHost(finalParsed.hostname)) {
+        throw new FetchError(
+          "Redirect target points to a private network. Please use a publicly reachable URL."
+        );
+      }
+    } catch (e) {
+      if (e instanceof FetchError) throw e;
+    }
+  }
+
+  // Read response body with size limit to prevent OOM
+  const reader = res.body?.getReader();
+  if (!reader) throw new FetchError("Empty response body.");
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.length;
+      if (totalBytes > MAX_BODY_BYTES) {
+        reader.cancel();
+        throw new FetchError("Response body exceeds 10 MB limit.");
+      }
+      chunks.push(value);
+    }
+  } catch (e) {
+    if (e instanceof FetchError) throw e;
+    throw new FetchError("Failed to read response body.");
+  }
+  const decoder = new TextDecoder();
+  const html = chunks.map((c) => decoder.decode(c, { stream: true })).join("") + decoder.decode();
   const finalUrl = res.url || url;
   const origin = new URL(finalUrl).origin;
   const $ = cheerio.load(html);
@@ -180,14 +241,14 @@ export async function extractMeta(rawUrl: string): Promise<ExtractedMeta> {
   const getMeta = (selector: string) =>
     $(selector).attr("content")?.trim() || undefined;
 
-  const og: Record<string, string> = {};
+  const og: Record<string, string> = Object.create(null);
   $('meta[property^="og:"]').each((_, el) => {
     const prop = $(el).attr("property");
     const content = $(el).attr("content");
     if (prop && content) og[prop] = content.trim();
   });
 
-  const twitter: Record<string, string> = {};
+  const twitter: Record<string, string> = Object.create(null);
   $('meta[name^="twitter:"]').each((_, el) => {
     const name = $(el).attr("name");
     const content = $(el).attr("content");

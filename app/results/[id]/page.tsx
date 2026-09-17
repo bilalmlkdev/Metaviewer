@@ -36,6 +36,13 @@ export default function ResultsPage() {
   const [reanalyzing, setReanalyzing] = useState(false);
   const [copied, setCopied] = useState(false);
   const scoreCardRef = useRef<HTMLDivElement>(null);
+  const errorTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const cached = getResult(params.id);
@@ -64,7 +71,8 @@ export default function ResultsPage() {
       setResult(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Re-analysis failed.");
-      setTimeout(() => setError(null), 3000);
+      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
+      errorTimeoutRef.current = setTimeout(() => setError(null), 3000);
     } finally {
       setReanalyzing(false);
     }
@@ -111,6 +119,7 @@ export default function ResultsPage() {
         <div className="flex items-center gap-3 min-w-0  ">
           <button
             onClick={() => router.push("/")}
+            aria-label="Go back"
             className="text-muted hover:text-fg transition-colors"
           >
             <ArrowLeft size={18} />
@@ -119,6 +128,7 @@ export default function ResultsPage() {
             href={result.finalUrl}
             target="_blank"
             rel="noreferrer"
+            aria-label={`Open ${result.finalUrl} in new tab`}
             className="flex items-center gap-1.5 text-sm truncate hover:underline"
           >
             {result.finalUrl.replace(/^https?:\/\//, "")}
@@ -168,7 +178,7 @@ export default function ResultsPage() {
         </div>
       </header>
 
-      {error && (
+      {error && result && (
         <div className="px-6 pt-4 tab-panel">
           <p className="text-sm text-red-400 text-center">{error}</p>
         </div>

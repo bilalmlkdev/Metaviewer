@@ -8,7 +8,7 @@ import { timeAgo } from "@/lib/timeAgo";
 
 function gradeColor(grade: string) {
   if (grade.startsWith("A")) return "text-emerald-400 bg-emerald-500/10";
-  if (grade.startsWith("B")) return "text-amber-400 bg-amber-500/10";
+  if (grade.startsWith("B")) return "text-lime-400 bg-lime-500/10";
   if (grade.startsWith("C")) return "text-amber-400 bg-amber-500/10";
   if (grade.startsWith("D")) return "text-orange-400 bg-orange-500/10";
   return "text-red-400 bg-red-500/10";

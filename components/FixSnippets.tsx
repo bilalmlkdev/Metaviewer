@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, Copy, Wand2 } from "lucide-react";
 import type { AnalysisResult } from "@/types";
 import { generateSnippet, type SnippetFramework } from "@/lib/fixSnippets";
@@ -15,14 +15,22 @@ const TABS: { id: SnippetFramework; label: string }[] = [
 export function FixSnippets({ result }: { result: AnalysisResult }) {
   const [tab, setTab] = useState<SnippetFramework>("html");
   const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const snippet = generateSnippet(result, tab);
   const issueCount = result.checks.filter((c) => c.status !== "pass").length;
 
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   async function copy() {
     await navigator.clipboard.writeText(snippet);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setCopied(false), 1500);
   }
 
   return (
@@ -37,10 +45,15 @@ export function FixSnippets({ result }: { result: AnalysisResult }) {
           : "Your tags already look solid. Here's the equivalent code for reference."}
       </p>
 
-      <div className="flex items-center gap-1 mb-3 flex-wrap">
+      <div
+        role="tablist"
+        className="flex items-center gap-1 mb-3 flex-wrap"
+      >
         {TABS.map((t) => (
           <button
             key={t.id}
+            role="tab"
+            aria-selected={tab === t.id}
             onClick={() => setTab(t.id)}
             className={`px-3 h-8 rounded-md text-sm border transition-colors ${
               tab === t.id
@@ -53,6 +66,7 @@ export function FixSnippets({ result }: { result: AnalysisResult }) {
         ))}
         <button
           onClick={copy}
+          aria-label="Copy snippet to clipboard"
           className="ml-auto flex items-center gap-1.5 px-3 h-8 rounded-md text-sm border border-border text-muted hover:text-fg"
         >
           {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}

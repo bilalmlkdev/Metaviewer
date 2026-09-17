@@ -13,7 +13,7 @@ export function SiteHeader() {
       >
         <Image
           src="/favicon.svg"
-          alt=""
+          alt="Metaviewer logo"
           width={22}
           height={22}
           className="text-accent"
@@ -26,6 +26,7 @@ export function SiteHeader() {
           href="https://github.com/bilalmlkdev/Metaviewer"
           target="_blank"
           rel="noreferrer"
+          aria-label="GitHub"
           className="h-9 flex items-center gap-2 px-3 rounded-md border border-border text-sm text-fg hover:bg-fg/5 transition-colors"
         >
           <Github size={16} />

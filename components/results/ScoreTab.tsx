@@ -22,6 +22,7 @@ function CheckRow({ check }: { check: MetaCheck }) {
     <div className="border-b border-border/40 last:border-0">
       <button
         onClick={() => hasFix && setOpen((v) => !v)}
+        aria-expanded={hasFix ? open : undefined}
         className={`w-full flex items-start justify-between gap-4 py-3.5 text-left ${hasFix ? "cursor-pointer" : "cursor-default"}`}
       >
         <div className="flex items-start gap-3 min-w-0">
@@ -65,7 +66,7 @@ function CategorySection({
 
   return (
     <div className="rounded-xl border border-border bg-surface overflow-hidden rise-in">
-      <button onClick={() => setOpen((v) => !v)} className="w-full flex items-center justify-between px-6 py-4">
+      <button onClick={() => setOpen((v) => !v)} aria-expanded={open} className="w-full flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <span className="text-accent">{CATEGORY_ICONS[checks[0]?.category ?? "essential"]}</span>
           <div className="text-left">
@@ -120,6 +121,8 @@ export function ScoreTab({ result }: { result: AnalysisResult }) {
           <button
             key={value}
             onClick={() => setStatusFilter(value)}
+            role="radio"
+            aria-checked={statusFilter === value}
             className={`px-3 h-8 rounded-md text-sm border transition-colors ${
               statusFilter === value ? "bg-fg text-background border-fg" : "border-border text-muted hover:text-fg"
             }`}

@@ -28,14 +28,28 @@ function isBrowser() {
   return typeof window !== "undefined";
 }
 
+function safeSetItem(key: string, value: string): boolean {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function safeRemoveItem(key: string): boolean {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** Cache a full analysis result locally, keyed by its id. */
 export function saveResult(result: AnalysisResult): void {
   if (!isBrowser()) return;
-  try {
-    localStorage.setItem(RESULT_PREFIX + result.id, JSON.stringify(result));
-  } catch {
-    // localStorage full or unavailable  fail silently, history is best-effort.
-  }
+  safeSetItem(RESULT_PREFIX + result.id, JSON.stringify(result));
   addToHistory(result);
 }
 
@@ -64,11 +78,7 @@ function addToHistory(result: AnalysisResult): void {
     warningCount: result.checks.filter((c) => c.status === "warning").length,
     errorCount: result.checks.filter((c) => c.status === "error").length,
   });
-  try {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, MAX_HISTORY)));
-  } catch {
-    // ignore quota errors
-  }
+  safeSetItem(HISTORY_KEY, JSON.stringify(list.slice(0, MAX_HISTORY)));
 }
 
 export function getHistory(): HistoryEntry[] {
@@ -76,7 +86,9 @@ export function getHistory(): HistoryEntry[] {
   const raw = localStorage.getItem(HISTORY_KEY);
   if (!raw) return [];
   try {
-    return JSON.parse(raw) as HistoryEntry[];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed as HistoryEntry[];
   } catch {
     return [];
   }
@@ -85,15 +97,15 @@ export function getHistory(): HistoryEntry[] {
 export function removeFromHistory(id: string): void {
   if (!isBrowser()) return;
   const list = getHistory().filter((h) => h.id !== id);
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
-  localStorage.removeItem(RESULT_PREFIX + id);
+  safeSetItem(HISTORY_KEY, JSON.stringify(list));
+  safeRemoveItem(RESULT_PREFIX + id);
 }
 
 export function clearHistory(): void {
   if (!isBrowser()) return;
   const list = getHistory();
-  list.forEach((h) => localStorage.removeItem(RESULT_PREFIX + h.id));
-  localStorage.removeItem(HISTORY_KEY);
+  list.forEach((h) => safeRemoveItem(RESULT_PREFIX + h.id));
+  safeRemoveItem(HISTORY_KEY);
 }
 
 export function getStoredTheme(): "dark" | "light" | null {
@@ -103,5 +115,5 @@ export function getStoredTheme(): "dark" | "light" | null {
 
 export function setStoredTheme(theme: "dark" | "light"): void {
   if (!isBrowser()) return;
-  localStorage.setItem(THEME_KEY, theme);
+  safeSetItem(THEME_KEY, theme);
 }
