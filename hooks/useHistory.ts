@@ -8,7 +8,7 @@ export function useHistory() {
   const [loaded, setLoaded] = useState(false);
 
   function refresh() {
-    setEntries(getHistory().slice(0, 6));
+    setEntries(getHistory().slice(0, 8));
     setLoaded(true);
   }
 
