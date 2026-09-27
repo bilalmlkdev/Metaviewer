@@ -13,23 +13,28 @@ export function HeroSection() {
         </div>
 
         <h1 className="font-instrument-serif text-[2.5rem] sm:text-[4.5rem] md:text-[5.5rem] leading-[1.05] tracking-tight text-balance">
-          <span className="text-fg/30">Understand </span>
-          <span className="text-fg">Any</span>
-          <span className="text-fg/30"> Link</span>
-          <br />
+          <span className="text-fg/30">See How Your </span>
           <span className="relative inline-block text-fg">
-            In Seconds
-            <svg aria-hidden className="absolute -bottom-1 left-0 w-full h-3 overflow-visible" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-              <path d="M3 7 C 30 3, 55 3, 80 7 C 105 11, 130 11, 155 7 C 170 4.5, 185 4.5, 197 6" stroke="rgb(var(--color-accent))" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+            Link
+            <svg aria-hidden className="absolute -bottom-1 left-0 w-full h-3 overflow-visible" viewBox="0 0 60 12" fill="none" preserveAspectRatio="none">
+              <path d="M3 7 C 12 3, 22 3, 30 7 C 38 11, 48 11, 57 6" stroke="var(--color-accent)" strokeWidth="2.8" strokeLinecap="round" fill="none" />
             </svg>
           </span>
-          <span className="text-fg/30">, Not in Hours.</span>
+          <span className="text-fg/30"> Looks</span>
+          <br />
+          <span className="text-fg/30">Everywhere, </span>
+          <span className="relative inline-block text-fg">
+            Instantly
+            <svg aria-hidden className="absolute -bottom-1 left-0 w-full h-3 overflow-visible" viewBox="0 0 140 12" fill="none" preserveAspectRatio="none">
+              <path d="M3 7 C 25 3, 48 3, 70 7 C 92 11, 115 11, 137 6" stroke="var(--color-accent)" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+            </svg>
+          </span>
         </h1>
 
         <p className="text-muted text-base sm:text-lg leading-relaxed mt-7 max-w-xl mx-auto">
-          Paste any URL and see the preview card it actually produces,
-          then fix what&apos;s cropped, missing, or wrong before someone
-          else sees it first.
+          Paste any URL and get an instant preview of how it renders across
+          every major platform - with a score, real image dimensions, and
+          copy-paste fixes for anything that&apos;s broken.
         </p>
 
         <div id="analyze" className="mt-10 w-full flex justify-center scroll-mt-24">

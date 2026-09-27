@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import { Instrument_Serif } from "next/font/google";
+import { RouteLoader } from "@/components/RouteLoader";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -54,6 +55,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className="bg-background text-fg font-sans antialiased min-h-screen transition-colors">
+        <RouteLoader />
         {children}
       </body>
     </html>

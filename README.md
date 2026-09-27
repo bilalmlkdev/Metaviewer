@@ -18,13 +18,13 @@
 
 </div>
 
-# The Problem This Solves
+## The Problem This Solves
 
 You share a link and the preview card that shows up in Slack, Discord, or X looks wrong - missing image, blank title, or nothing at all. The page's own HTML looks fine when you eyeball it. Browser dev tools don't tell you which of the 40-odd things that could be wrong actually is, and every platform reads Open Graph and Twitter Card tags slightly differently, so "it works on X" doesn't mean it works anywhere else.
 
 Metaviewer replaces the guessing with an actual score. Paste a URL and get a 0-100 grade across six categories, a real rendered preview on nine platforms side by side, and a specific copy-paste fix for every check that's failing - not a generic "add an og:image tag" but the exact line your page is missing.
 
-# What You Actually Get
+## What You Actually Get
 
 - **You stop guessing which platform is broken.** Live previews for Google, X, LinkedIn, Discord, Slack, WhatsApp, Telegram, Facebook, and iMessage, side by side, so you see the actual difference instead of imagining it.
 - **You get a real score, not a pass/fail.** 0-100 with an A-F grade across six categories and 40+ individual checks - enough resolution to tell "basically fine" from "one tag away from perfect."
@@ -33,7 +33,7 @@ Metaviewer replaces the guessing with an actual score. Paste a URL and get a 0-1
 - **You can take the result with you.** Export as JSON, CSV, raw HTML, or PNG, or share the result URL directly.
 - **Nothing requires an account.** History lives in your browser; there's no sign-up standing between you and a check.
 
-# How It Works Under the Hood
+## How It Works Under the Hood
 
 **One server hop, and only because browsers force it.** Submitting a URL sends you straight to a full-page loading screen while `app/api/analyze/route.ts` fetches the target page server-side, parses it with cheerio, probes its images for real dimensions, and scores it. That's the only server-side step, and it exists purely because a browser can't `fetch()` arbitrary cross-origin HTML - nothing about your check is stored on the server.
 
@@ -43,7 +43,7 @@ Metaviewer replaces the guessing with an actual score. Paste a URL and get a 0-1
 
 **Scoring has one source of truth.** `lib/analyzer.ts` holds `CHECKS[]`, and every result tab reads `result.checks` / `result.categoryScores` from it - no tab recomputes pass/fail on its own, so the score you see on the Score tab and the checks shown elsewhere can never quietly disagree.
 
-# The Results Page
+## The Results Page
 
 Seven tabs, all reading the same `AnalysisResult`, nothing mocked: Previews, Basic, Open Graph, X/Twitter, Images, Raw, Score.
 
@@ -52,7 +52,7 @@ Seven tabs, all reading the same `AnalysisResult`, nothing mocked: Previews, Bas
 - **Images** shows decoded pixel dimensions for your OG image, favicon, and apple-touch-icon, flagging the difference when a site's declared dimensions don't match what was actually fetched.
 - **Basic** surfaces detected JSON-LD `@type`s under a Structured Data row, backed by the `structured-data` check.
 
-# Tech Stack
+## Tech Stack
 
 - **Next.js 14** (App Router) + **TypeScript**
 - **Tailwind CSS**, CSS-variable theming (dark/light, no flash on load)
@@ -60,7 +60,7 @@ Seven tabs, all reading the same `AnalysisResult`, nothing mocked: Previews, Bas
 - No UI/animation component libraries - everything here is hand-built
 - No image-decoding library - dimension probing is a from-scratch header parser
 
-# Project Structure
+## Project Structure
 
 ```
 app
@@ -98,7 +98,7 @@ lib
 types/index.ts    all shared TypeScript types - extend here first
 ```
 
-# Getting Started
+## Getting Started
 
 ```bash
 npm install
@@ -116,7 +116,7 @@ npm run start
 
 Deploys cleanly to Vercel with zero configuration - a standard Next.js 14 App Router project, one serverless API route, no environment variables required. Verified locally with a clean `npm install && npm run build` on Next.js 14.2.35, strict TypeScript, `noUncheckedIndexedAccess` on.
 
-# Known Gaps
+## Known Gaps
 
 Worth knowing about before you rely on this for something critical:
 
@@ -125,7 +125,7 @@ Worth knowing about before you rely on this for something critical:
 - **Results don't follow you across devices**, by design - see "How It Works" above. This is exactly the seam a real backend would slot into: swap `localHistory.ts`'s internals, keep its function signatures.
 - **Fix strings in `checkFixes.ts` are static**, not interpolated from the site's actual extracted values - unlike the Open Graph/Twitter tabs' `CodeFixBlock`, which does fill in real values. Upgrading fixes to include the site's own URL/title/etc. is an open improvement.
 
-# Contributing
+## Contributing
 
 Contributions are welcome. Read **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup, architecture, and PR guidelines. All contributors are expected to follow the **[Code of Conduct](CODE_OF_CONDUCT.md)**.
 
@@ -137,6 +137,6 @@ Quick rules:
 4. No new npm dependencies without a real reason.
 5. `lib/analyzer.ts` is the single source of truth for scoring.
 
-# License (MIT)
+## License (MIT)
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Clock, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import { Clock, CheckCircle2, AlertTriangle, XCircle, Trash2 } from "lucide-react";
 import { useHistory } from "@/hooks/useHistory";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { TimeAgo } from "@/components/ui/TimeAgo";
@@ -13,7 +13,7 @@ import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 
 export function RecentAnalysis() {
-  const { entries } = useHistory();
+  const { entries, remove } = useHistory();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -43,12 +43,13 @@ export function RecentAnalysis() {
             const ogImg = entry.ogImage;
 
             return (
-              <Tooltip key={entry.id} label={name} className="w-full h-full">
-                <Link
-                  href={`/results/${entry.id}`}
-                  className="group flex flex-col w-full h-full min-h-[260px] rounded-xl border border-border bg-background/60 p-3 sm:p-4 transition-all hover:border-accent/30 rise-in overflow-hidden"
-                  style={{ animationDelay: `${i * 60}ms` }}
-                >
+              <div key={entry.id} className="relative group w-full h-full">
+                <Tooltip label={name} className="w-full h-full">
+                  <Link
+                    href={`/results/${entry.id}`}
+                    className="group flex flex-col w-full h-full min-h-[260px] rounded-xl border border-border bg-background/60 p-3 sm:p-4 transition-all hover:border-accent/30 rise-in overflow-hidden"
+                    style={{ animationDelay: `${i * 60}ms` }}
+                  >
                   <div className="relative h-32 shrink-0 rounded-lg overflow-hidden bg-grid mb-2">
                     {ogImg ? (
                       <Image src={ogImg} alt="" fill sizes="(max-width: 640px) 100vw, 25vw" className="object-cover group-hover:scale-[1.02] transition-transform duration-300" unoptimized style={{ objectPosition: "top center" }} />
@@ -76,7 +77,15 @@ export function RecentAnalysis() {
                     <div className="mt-auto pt-1.5 text-[10px] text-muted/40 tabular-nums"><TimeAgo date={entry.fetchedAt} /></div>
                   </div>
                 </Link>
-              </Tooltip>
+                </Tooltip>
+                <button
+                  onClick={(ev) => { ev.preventDefault(); ev.stopPropagation(); remove(entry.id); }}
+                  aria-label={`Delete ${name}`}
+                  className="absolute bottom-3 right-3 h-7 w-7 flex items-center justify-center rounded-lg bg-black/60 backdrop-blur-sm text-white/70 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 z-10"
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
             );
           })}
         </div>
