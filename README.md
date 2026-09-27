@@ -139,4 +139,4 @@ Quick rules:
 
 ## License (MIT)
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see [LICENSE](LICENSE) for details

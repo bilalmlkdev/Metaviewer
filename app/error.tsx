@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { Logo } from "@/components/Logo";
 
 export default function Error({
   error,
@@ -22,7 +23,7 @@ export default function Error({
 
       <section className="flex-1 flex flex-col items-center justify-center text-center px-6 py-24">
         <span className="inline-flex h-14 w-14 items-center justify-center rounded-xl border border-red-500/30 bg-red-500/10 text-red-400 mb-6">
-          <AlertTriangle size={24} />
+         <Logo />
         </span>
 
         <p className="text-xs font-mono text-muted tracking-wide mb-3">

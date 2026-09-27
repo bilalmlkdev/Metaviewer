@@ -91,9 +91,9 @@ export function RecentAnalysis() {
         </div>
 
         <div className="mt-4 pt-4 border-t border-border/60">
-          <Link href="/history" className="block text-center text-sm text-muted hover:text-accent transition-colors">
-            You have {entries.length} recent analysis{entries.length !== 1 ? "es" : ""} saved locally - view your full history with scores, timestamps, and trends →
-          </Link>
+          <p className="block text-center text-sm ">
+            You have {entries.length} recent analysis{entries.length !== 1 ? "es" : ""} saved locally, view your full <Link href="/history" className="underline text-muted hover:text-accent transition-colors uppercase">History</Link> with scores, timestamps, and trends 
+          </p>
         </div>
       </div>
     </section>
