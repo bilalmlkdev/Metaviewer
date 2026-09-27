@@ -1,23 +1,18 @@
 "use client";
 
-import { Suspense, type ElementType } from "react";
+import { Suspense } from "react";
+import { Clock, CheckCircle2, Globe, ScanSearch, ListChecks } from "lucide-react";
 import { useAnalyzing } from "@/hooks/useAnalyzing";
-import { AlertCircle, CheckCircle2, Globe, ScanSearch, ListChecks, Clock } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import AnalyzeError from "@/components/AnalyzeError";
 
-const ICON_COMPONENTS: ElementType[] = [Globe, ScanSearch, ListChecks];
+const ICON_COMPONENTS = [Globe, ScanSearch, ListChecks];
 
 function AnalyzingScreen() {
   const { error, step, allDone, progress, elapsed, url } = useAnalyzing();
 
   if (error) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-5 text-center px-6">
-        <span className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-red-500/10 text-red-400 border border-red-500/20"><AlertCircle size={24} /></span>
-        <div><p className="text-lg text-fg mb-1">Analysis failed</p><p className="text-sm text-muted max-w-sm">{error}</p></div>
-        <a href="/" className="h-10 px-5 rounded-lg border border-border bg-surface shadow-xs text-sm text-fg hover:bg-fg/5 transition-colors">Back to homepage</a>
-      </div>
-    );
+    return <AnalyzeError error={error} url={url} />;
   }
 
   return (

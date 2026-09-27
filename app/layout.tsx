@@ -28,9 +28,7 @@ const themeInitScript = `
 (function () {
   try {
     var stored = localStorage.getItem("metaviewer:theme");
-    var theme = stored === "light" || stored === "dark"
-      ? stored
-      : (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    var theme = stored === "light" ? "light" : "dark";
     document.documentElement.classList.remove("dark", "light");
     document.documentElement.classList.add(theme);
   } catch (e) {

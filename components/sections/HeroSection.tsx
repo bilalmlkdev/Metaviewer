@@ -13,16 +13,16 @@ export function HeroSection() {
         </div>
 
         <h1 className="font-instrument-serif text-[2.5rem] sm:text-[4.5rem] md:text-[5.5rem] leading-[1.05] tracking-tight text-balance">
-          <span className="text-fg/30">See How Your </span>
+          <span className="text-fg/80">See How Your </span>
           <span className="relative inline-block text-fg">
             Link
             <svg aria-hidden className="absolute -bottom-1 left-0 w-full h-3 overflow-visible" viewBox="0 0 60 12" fill="none" preserveAspectRatio="none">
               <path d="M3 7 C 12 3, 22 3, 30 7 C 38 11, 48 11, 57 6" stroke="var(--color-accent)" strokeWidth="2.8" strokeLinecap="round" fill="none" />
             </svg>
           </span>
-          <span className="text-fg/30"> Looks</span>
+          <span className="text-fg/80"> Looks</span>
           <br />
-          <span className="text-fg/30">Everywhere, </span>
+          <span className="text-fg/80">Everywhere, </span>
           <span className="relative inline-block text-fg">
             Instantly
             <svg aria-hidden className="absolute -bottom-1 left-0 w-full h-3 overflow-visible" viewBox="0 0 140 12" fill="none" preserveAspectRatio="none">
@@ -33,7 +33,7 @@ export function HeroSection() {
 
         <p className="text-muted text-base sm:text-lg leading-relaxed mt-7 max-w-xl mx-auto">
           Paste any URL and get an instant preview of how it renders across
-          every major platform - with a score, real image dimensions, and
+          every major platform, with a score, real image dimensions, and
           copy-paste fixes for anything that&apos;s broken.
         </p>
 

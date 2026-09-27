@@ -53,7 +53,7 @@ export function AnalyzeForm() {
             placeholder="Enter any URL (e.g. stripe.com)"
             autoComplete="off"
             spellCheck={false}
-            className="flex-1 min-w-0 h-10 bg-transparent px-2 text-sm font-mono placeholder:text-muted/60 focus:outline-none"
+            className="flex-1 min-w-0 h-10 bg-fg/5 rounded-lg pr-2 pl-3 text-sm font-mono placeholder:text-muted/60 focus:outline-none"
           />
 
           <button

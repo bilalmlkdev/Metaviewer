@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Logo } from "@/components/Logo";
 
 export default function GlobalError({
   error,
@@ -31,24 +32,7 @@ export default function GlobalError({
             "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif",
         }}
       >
-        <span
-          style={{
-            display: "inline-flex",
-            height: 56,
-            width: 56,
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 12,
-            border: "1px solid rgba(239,68,68,0.3)",
-            background: "rgba(239,68,68,0.1)",
-            color: "rgb(248 113 113)",
-            fontSize: 24,
-            marginBottom: 24,
-          }}
-        >
-          !
-        </span>
-
+        <Logo className="h-10 w-10" />
         <p
           style={{
             fontSize: 12,

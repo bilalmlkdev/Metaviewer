@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Clock, CheckCircle2, AlertTriangle, XCircle, Trash2 } from "lucide-react";
 import { useHistory } from "@/hooks/useHistory";
-import { GradeBadge } from "@/components/ui/GradeBadge";
 import { TimeAgo } from "@/components/ui/TimeAgo";
 import { SiteIcon } from "@/components/SiteIcon";
 import { Logo } from "@/components/Logo";
@@ -56,7 +55,6 @@ export function RecentAnalysis() {
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-background/50"><Logo className="h-8 w-8 text-border" /></div>
                     )}
-                    <GradeBadge grade={entry.grade as any} />
                   </div>
 
                   <div className="flex-1 min-h-0 min-w-0 flex flex-col">
