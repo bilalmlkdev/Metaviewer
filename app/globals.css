@@ -1,36 +1,40 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root,
-.dark {
-  color-scheme: dark;
-  --color-background: 10 10 10;
-  --color-surface: 20 20 20;
-  --color-border: 38 38 38;
-  --color-accent: 240 178 122;
-  --color-accent-light: 245 203 167;
-  --color-muted: 154 154 154;
-  --color-fg: 255 255 255;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: #111111;
+  --color-surface: #141414;
+  --color-border: #262626;
+  --color-accent: #f0b27a;
+  --color-accent-light: #f5cba7;
+  --color-muted: #9a9a9a;
+  --color-fg: #ffffff;
+
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  --font-instrument-serif: var(--font-instrument-serif), Georgia, serif;
 }
 
 .light {
   color-scheme: light;
-  --color-background: 250 249 247;
-  --color-surface: 255 255 255;
-  --color-border: 226 222 217;
-  --color-accent: 198 108 44;
-  --color-accent-light: 168 87 30;
-  --color-muted: 107 100 93;
-  --color-fg: 20 18 16;
+  --color-background: #f9f9f9;
+  --color-surface: #ffffff;
+  --color-border: #e2ded9;
+  --color-accent: #c66c2c;
+  --color-accent-light: #a8571e;
+  --color-muted: #6b645d;
+  --color-fg: #141210;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 body {
-  background-image: radial-gradient(
-    ellipse 80% 50% at 50% -10%,
-    rgba(240, 178, 122, 0.08),
-    transparent
-  );
+  background-color: var(--color-background);
+  color: var(--color-fg);
 }
 
 .bg-grid {
@@ -94,9 +98,9 @@ body {
 .skeleton {
   background: linear-gradient(
     90deg,
-    rgb(var(--color-border) / 0.4) 25%,
-    rgb(var(--color-border) / 0.9) 37%,
-    rgb(var(--color-border) / 0.4) 63%
+    color-mix(in oklab, var(--color-border) 40%, transparent) 25%,
+    color-mix(in oklab, var(--color-border) 90%, transparent) 37%,
+    color-mix(in oklab, var(--color-border) 40%, transparent) 63%
   );
   background-size: 400% 100%;
   animation: shimmer 1.6s ease-in-out infinite;

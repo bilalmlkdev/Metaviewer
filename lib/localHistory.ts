@@ -22,6 +22,12 @@ export interface HistoryEntry {
   passCount: number;
   warningCount: number;
   errorCount: number;
+  /** Absolute URL of the analyzed site's own icon, when it had one. */
+  favicon?: string;
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  loadTimeMs?: number;
 }
 
 function isBrowser() {
@@ -77,6 +83,11 @@ function addToHistory(result: AnalysisResult): void {
     passCount: result.checks.filter((c) => c.status === "pass").length,
     warningCount: result.checks.filter((c) => c.status === "warning").length,
     errorCount: result.checks.filter((c) => c.status === "error").length,
+    favicon: result.meta.favicon,
+    title: result.meta.title,
+    description: result.meta.description,
+    ogImage: result.meta.ogImage?.url ?? result.meta.og["og:image"],
+    loadTimeMs: result.meta.loadTimeMs,
   });
   safeSetItem(HISTORY_KEY, JSON.stringify(list.slice(0, MAX_HISTORY)));
 }

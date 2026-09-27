@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { DM_Sans } from "next/font/google";
+import { Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  axes: ["opsz", "SOFT", "WONK"],
-  display: "swap",
+  weight: ["400", "500", "700"],
+  variable: "--font-dm-sans",
 });
 
-const inter = Inter({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
+  weight: ["400"],
+  variable: "--font-instrument-serif",
 });
 
 export const metadata: Metadata = {
@@ -44,11 +44,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`dark ${fraunces.variable} ${inter.variable}`}
-      suppressHydrationWarning
-    >
+      <html
+        lang="en"
+        className={`dark ${dmSans.variable} ${instrumentSerif.variable}`}
+        suppressHydrationWarning
+      >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />

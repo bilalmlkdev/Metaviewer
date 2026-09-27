@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { AnalysisResult } from "@/types";
 import { StatusIcon } from "@/components/results/StatusIcon";
 import { CodeFixBlock } from "@/components/results/CodeFixBlock";
+import { Tooltip } from "@/components/Tooltip";
 
 const REQUIRED: { key: string; label: string; desc: string }[] = [
   { key: "og:title", label: "og:title", desc: "The title of your content as it should appear in the preview." },
@@ -87,18 +88,22 @@ export function OpenGraphTab({ result }: { result: AnalysisResult }) {
               <h3 className="font-medium">og:image Preview</h3>
             </div>
             <div className="flex items-center gap-1.5">
-              <button onClick={copyImage} aria-label="Copy og:image URL" className="h-8 w-8 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg">
-                {copied ? <StatusIcon status="pass" size={14} /> : <Copy size={14} />}
-              </button>
-              <a
-                href={og["og:image"]}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Open og:image in new tab"
-                className="h-8 w-8 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg"
-              >
-                <ExternalLink size={14} />
-              </a>
+              <Tooltip label={copied ? "Copied!" : "Copy image URL"}>
+                <button onClick={copyImage} aria-label="Copy og:image URL" className="h-8 w-8 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg">
+                  {copied ? <StatusIcon status="pass" size={14} /> : <Copy size={14} />}
+                </button>
+              </Tooltip>
+              <Tooltip label="Open in new tab">
+                <a
+                  href={og["og:image"]}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Open og:image in new tab"
+                  className="h-8 w-8 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg"
+                >
+                  <ExternalLink size={14} />
+                </a>
+              </Tooltip>
             </div>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}

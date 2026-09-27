@@ -19,6 +19,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { ExportMenu } from "@/components/ExportMenu";
 import { getResult, saveResult } from "@/lib/localHistory";
 import { ResultTabs, type TabId } from "@/components/results/ResultTabs";
+import { Tooltip } from "@/components/Tooltip";
 import { PreviewsTab } from "@/components/results/PreviewsTab";
 import { BasicTab } from "@/components/results/BasicTab";
 import { OpenGraphTab } from "@/components/results/OpenGraphTab";
@@ -117,13 +118,15 @@ export default function ResultsPage() {
       <header className="flex items-center justify-between px-6 py-3 border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
         <div className="w-full max-w-[1100px] mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3 min-w-0  ">
-          <button
-            onClick={() => router.push("/")}
-            aria-label="Go back"
-            className="text-muted hover:text-fg transition-colors"
-          >
-            <ArrowLeft size={18} />
-          </button>
+          <Tooltip label="Go back">
+            <button
+              onClick={() => router.push("/")}
+              aria-label="Go back"
+              className="text-muted hover:text-fg transition-colors"
+            >
+              <ArrowLeft size={18} />
+            </button>
+          </Tooltip>
           <a
             href={result.finalUrl}
             target="_blank"
@@ -136,41 +139,49 @@ export default function ResultsPage() {
           </a>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={reanalyze}
-            disabled={reanalyzing}
-            className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-md border border-border text-sm text-muted hover:text-fg transition-colors disabled:opacity-60"
-          >
-            {reanalyzing ? (
-              <Loader2 size={14} className="animate-spin" />
-            ) : (
-              <RefreshCw size={14} />
-            )}
-            Re-analyze
-          </button>
-          <button
-            onClick={share}
-            className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-md border border-border text-sm text-muted hover:text-fg transition-colors"
-          >
-            {copied ? (
-              <Check size={14} className="text-emerald-400" />
-            ) : (
-              <Share2 size={14} />
-            )}
-            {copied ? "Copied" : "Share"}
-          </button>
+          <Tooltip label="Re-analyze this URL">
+            <button
+              onClick={reanalyze}
+              disabled={reanalyzing}
+              className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border shadow-xs text-sm text-muted hover:text-fg transition-colors disabled:opacity-60"
+            >
+              {reanalyzing ? (
+                <Loader2 size={14} className="animate-spin" />
+              ) : (
+                <RefreshCw size={14} />
+              )}
+              Re-analyze
+            </button>
+          </Tooltip>
+          <Tooltip label={copied ? "Link copied!" : "Share this result"}>
+            <button
+              onClick={share}
+              className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border shadow-xs text-sm text-muted hover:text-fg transition-colors"
+            >
+              {copied ? (
+                <Check size={14} className="text-emerald-400" />
+              ) : (
+                <Share2 size={14} />
+              )}
+              {copied ? "Copied" : "Share"}
+            </button>
+          </Tooltip>
           <ExportMenu result={result} captureRef={scoreCardRef} />
-          <button
-            onClick={() => router.push("/history")}
-            className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-md border border-border text-sm text-muted hover:text-fg transition-colors"
-          >
-            <History size={14} />
-            History
-          </button>
-          <ThemeToggle />
+          <Tooltip label="View history">
+            <button
+              onClick={() => router.push("/history")}
+              className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border shadow-xs text-sm text-muted hover:text-fg transition-colors"
+            >
+              <History size={14} />
+              History
+            </button>
+          </Tooltip>
+          <Tooltip label="Toggle theme">
+            <ThemeToggle />
+          </Tooltip>
           <button
             onClick={() => router.push("/")}
-            className="flex items-center gap-1.5 h-9 px-3 rounded-md bg-fg text-background text-sm font-medium hover:opacity-90 transition-opacity"
+            className="flex items-center gap-1.5 h-9 px-3 rounded-lg bg-fg shadow-xs text-background text-sm font-medium hover:opacity-90 transition-opacity"
           >
             <Plus size={14} /> New Analysis
           </button>

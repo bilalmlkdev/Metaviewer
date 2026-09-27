@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Download, FileJson, FileSpreadsheet, FileCode, Image as ImageIcon } from "lucide-react";
 import type { AnalysisResult } from "@/types";
 import { exportAsJson, exportAsCsv, exportAsHtml, exportAsPng } from "@/lib/exportResult";
+import { Tooltip } from "@/components/Tooltip";
 
 type ExportId = "json" | "csv" | "html" | "png";
 
@@ -60,14 +61,16 @@ export function ExportMenu({
 
   return (
     <div className="relative" ref={menuRef}>
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-haspopup="true"
-        aria-expanded={open}
-        className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-md border border-border text-sm text-muted hover:text-fg transition-colors"
-      >
-        <Download size={14} /> Export
-      </button>
+      <Tooltip label="Export results">
+        <button
+          onClick={() => setOpen((v) => !v)}
+          aria-haspopup="true"
+          aria-expanded={open}
+          className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border shadow-xs text-sm text-muted hover:text-fg transition-colors"
+        >
+          <Download size={14} /> Export
+        </button>
+      </Tooltip>
       {open && (
         <div
           role="menu"

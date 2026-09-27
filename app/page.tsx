@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Eye,
   Target,
@@ -14,10 +16,13 @@ import {
   ScanSearch,
   ListChecks,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AnalyzeForm } from "@/components/AnalyzeForm";
 import { RecentAnalysis } from "@/components/RecentAnalysis";
 import { Faq } from "@/components/Faq";
+import { Logo } from "@/components/Logo";
+import { Tooltip } from "@/components/Tooltip";
 import { PLATFORMS } from "@/lib/platforms";
 
 const FEATURES = [
@@ -91,15 +96,48 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <section className="px-6 pt-20 pb-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="font-serif text-[2.75rem] sm:text-[4.25rem] leading-[1.02] tracking-tight text-balance">
-            Every link tells a story.
+      <section className="px-6 pt-10 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="max-w-3xl mx-auto text-center"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-1.5 mb-4">
+            <Github size={14} className="text-muted" />
+            <span className="text-xs font-mono text-muted">
+              Proudly Open Source Software!
+            </span>
+          </div>
+
+          <h1 className="font-instrument-serif text-[2.5rem] sm:text-[4.5rem] md:text-[5.5rem] leading-[1.05] tracking-tight text-balance">
+            <span className="text-fg/30">Understand </span>
+            <span className="text-fg">Any</span>
+            <span className="text-fg/30"> Link</span>
             <br />
-            <span className="text-accent">Most tell it badly.</span>
+            <span className="relative inline-block text-fg">
+              In Seconds
+              <svg
+                aria-hidden
+                className="absolute -bottom-1 left-0 w-full h-3 overflow-visible"
+                viewBox="0 0 200 12"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M3 7 C 30 3, 55 3, 80 7 C 105 11, 130 11, 155 7 C 170 4.5, 185 4.5, 197 6"
+                  stroke="rgb(var(--color-accent))"
+                  strokeWidth="2.8"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            <span className="text-fg/30">, Not in Hours.</span>
           </h1>
-          <p className="text-muted text-base sm:text-lg leading-relaxed mt-6 max-w-xl mx-auto">
-            Paste any URL and see the preview card it actually produces —
+
+          <p className="text-muted text-base sm:text-lg leading-relaxed mt-7 max-w-xl mx-auto">
+            Paste any URL and see the preview card it actually produces,
             then fix what&apos;s cropped, missing, or wrong before someone
             else sees it first.
           </p>
@@ -107,38 +145,14 @@ export default function HomePage() {
           <div id="analyze" className="mt-10 w-full flex justify-center scroll-mt-24">
             <AnalyzeForm />
           </div>
-        </div>
-
-        <div className="max-w-lg mx-auto mt-16 relative">
-          <div className="absolute -top-3 -left-3 h-6 w-6 border-l-2 border-t-2 border-accent/50 rounded-tl-sm" />
-          <div className="absolute -top-3 -right-3 h-6 w-6 border-r-2 border-t-2 border-accent/50 rounded-tr-sm" />
-          <div className="absolute -bottom-3 -left-3 h-6 w-6 border-l-2 border-b-2 border-accent/50 rounded-bl-sm" />
-          <div className="absolute -bottom-3 -right-3 h-6 w-6 border-r-2 border-b-2 border-accent/50 rounded-br-sm" />
-          <div className="rounded-xl border border-border bg-surface overflow-hidden">
-            <div className="aspect-[1.91/1] bg-fg/5 flex items-center justify-center">
-              <span className="text-xs font-mono text-muted">
-                1200 × 630 · og:image
-              </span>
-            </div>
-            <div className="p-4 text-left border-t border-border">
-              <p className="text-xs text-muted font-mono mb-1">yoursite.com</p>
-              <p className="text-sm font-medium">
-                This is the title tag your visitors will read first
-              </p>
-              <p className="text-xs text-muted mt-1 line-clamp-1">
-                And this is the description meta tag — cut off exactly where
-                each platform decides to cut it off.
-              </p>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </section>
 
       <RecentAnalysis />
 
       <section className="px-6 py-20 border-t border-border/60">
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-serif text-2xl sm:text-3xl text-center mb-14">
+          <h2 className="font-instrument-serif text-2xl sm:text-3xl text-center mb-14">
             From URL to fix, in three steps
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 relative">
@@ -160,7 +174,7 @@ export default function HomePage() {
 
       <section className="px-6 py-20 bg-grid border-t border-border/60">
         <div className="max-w-2xl mx-auto text-center mb-14">
-          <h2 className="font-serif text-2xl sm:text-3xl mb-3">
+          <h2 className="font-instrument-serif text-2xl sm:text-3xl mb-3">
             Beyond a pass/fail check
           </h2>
           <p className="text-muted leading-relaxed">
@@ -187,26 +201,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="px-6 py-20 border-t border-border/60">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-serif text-2xl sm:text-3xl mb-8">
-            Every platform crops differently
-          </h2>
-          <div className="flex flex-wrap justify-center gap-2.5">
-            {PLATFORMS.map((p) => (
-              <span
-                key={p.id}
-                className="px-3.5 py-2 rounded-lg border border-border bg-surface text-sm text-muted"
-              >
-                {p.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="px-6 py-20 border-t border-border/60">
-        <h2 className="font-serif text-2xl sm:text-3xl text-center mb-10">
+        <h2 className="font-instrument-serif text-2xl sm:text-3xl text-center mb-10">
           Questions people actually ask
         </h2>
         <div className="max-w-2xl mx-auto">
@@ -219,38 +216,40 @@ export default function HomePage() {
         <div className="flex items-start justify-between flex-wrap gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-accent/20 text-accent text-sm">
-                ◆
-              </span>
-              <span className="font-serif text-lg">Metaviewer</span>
+             <Logo className="h-[24px] w-[24px] text-accent relative bottom-[1px]" />
+              <span className="font-instrument-serif text-lg sm:text-xl md:text-2xl">Metaviewer</span>
             </div>
             <p className="text-sm text-muted max-w-xs">
               See what matters in your website, with clear, actionable insights.
             </p>
           </div>
           <div className="flex gap-2">
-            <a
-              href="https://github.com/bilalmlkdev"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="h-9 w-9 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-accent/60 transition-colors"
-            >
-              <Github size={16} />
-            </a>
-            <a
-              href="https://twitter.com/bilalmlkdev"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Twitter"
-              className="h-9 w-9 flex items-center justify-center rounded-md border border-border text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-accent/60 transition-colors"
-            >
-              <Twitter size={16} />
-            </a>
+            <Tooltip label="GitHub">
+              <a
+                href="https://github.com/bilalmlkdev"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+                className="h-9 w-9 flex items-center justify-center rounded-lg border border-border shadow-xs text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-accent/60 transition-colors"
+              >
+                <Github size={16} />
+              </a>
+            </Tooltip>
+            <Tooltip label="Twitter">
+              <a
+                href="https://twitter.com/bilalmlkdev"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Twitter"
+                className="h-9 w-9 flex items-center justify-center rounded-lg border border-border shadow-xs text-muted hover:text-fg focus:outline-none focus:ring-2 focus:ring-accent/60 transition-colors"
+              >
+                <Twitter size={16} />
+              </a>
+            </Tooltip>
           </div>
         </div>
         <div
-          className="flex items-center justify-center pointer-events-none select-none leading-[1]"
+          className="flex items-center justify-center overflow-hidden pointer-events-none select-none leading-[1]"
           style={{
             WebkitMaskImage:
               "linear-gradient(to bottom, black 0%, black 40%, transparent 90%)",
@@ -258,7 +257,7 @@ export default function HomePage() {
               "linear-gradient(to bottom, black 0%, black 40%, transparent 90%)",
           }}
         >
-          <span className="text-[80px] sm:text-[120px] md:text-[200px] font-serif font-bold tracking-tighter text-fg/[0.04]">
+          <span className="text-[80px] sm:text-[120px] md:text-[200px]  font-bold tracking-[-18px] text-fg/[0.04]">
             Metaviewer
           </span>
         </div>

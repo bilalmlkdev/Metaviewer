@@ -29,7 +29,7 @@ export default function Error({
           SOMETHING BROKE
         </p>
 
-        <h1 className="font-serif text-3xl sm:text-5xl leading-tightest tracking-tight max-w-xl">
+        <h1 className="font-sans text-3xl sm:text-5xl leading-tightest tracking-tight max-w-xl">
           Unexpected error
         </h1>
 

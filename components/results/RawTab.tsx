@@ -115,7 +115,7 @@ export function RawTab({ result }: { result: AnalysisResult }) {
           [linkCount, "Link Tags"],
         ].map(([count, label], i) => (
           <div key={label as string} className="rounded-xl border border-border bg-surface p-5 rise-in" style={{ animationDelay: `${i * 50}ms` }}>
-            <p className="text-2xl font-serif">{count}</p>
+            <p className="text-2xl font-sans">{count}</p>
             <p className="text-sm text-muted mt-1">{label}</p>
           </div>
         ))}
