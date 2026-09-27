@@ -91,63 +91,95 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <section className="flex flex-col items-center text-center px-6 pt-16 pb-14">
-        <span className="text-xs px-3 py-1 rounded-full border border-border text-muted mb-6">
-          Free &amp; Open Source
-        </span>
-        <h1 className="font-serif text-4xl sm:text-6xl leading-tightest tracking-tight max-w-3xl">
-          Your link previews are broken.{" "}
-          <span className="text-accent block sm:inline">
-            Find out why in seconds
-          </span>
-        </h1>
+      <section className="px-6 pt-20 pb-16">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="font-serif text-[2.75rem] sm:text-[4.25rem] leading-[1.02] tracking-tight text-balance">
+            Every link tells a story.
+            <br />
+            <span className="text-accent">Most tell it badly.</span>
+          </h1>
+          <p className="text-muted text-base sm:text-lg leading-relaxed mt-6 max-w-xl mx-auto">
+            Paste any URL and see the preview card it actually produces —
+            then fix what&apos;s cropped, missing, or wrong before someone
+            else sees it first.
+          </p>
 
-        <div
-          id="analyze"
-          className="mt-9 w-full flex justify-center scroll-mt-24"
-        >
-          <AnalyzeForm />
+          <div id="analyze" className="mt-10 w-full flex justify-center scroll-mt-24">
+            <AnalyzeForm />
+          </div>
+        </div>
+
+        <div className="max-w-lg mx-auto mt-16 relative">
+          <div className="absolute -top-3 -left-3 h-6 w-6 border-l-2 border-t-2 border-accent/50 rounded-tl-sm" />
+          <div className="absolute -top-3 -right-3 h-6 w-6 border-r-2 border-t-2 border-accent/50 rounded-tr-sm" />
+          <div className="absolute -bottom-3 -left-3 h-6 w-6 border-l-2 border-b-2 border-accent/50 rounded-bl-sm" />
+          <div className="absolute -bottom-3 -right-3 h-6 w-6 border-r-2 border-b-2 border-accent/50 rounded-br-sm" />
+          <div className="rounded-xl border border-border bg-surface overflow-hidden">
+            <div className="aspect-[1.91/1] bg-fg/5 flex items-center justify-center">
+              <span className="text-xs font-mono text-muted">
+                1200 × 630 · og:image
+              </span>
+            </div>
+            <div className="p-4 text-left border-t border-border">
+              <p className="text-xs text-muted font-mono mb-1">yoursite.com</p>
+              <p className="text-sm font-medium">
+                This is the title tag your visitors will read first
+              </p>
+              <p className="text-xs text-muted mt-1 line-clamp-1">
+                And this is the description meta tag — cut off exactly where
+                each platform decides to cut it off.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       <RecentAnalysis />
 
-      <section className="px-6 py-24 border-t border-border/60">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
-          {STEPS.map((step, i) => (
-            <div key={step.title} className="relative text-center sm:text-left">
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start justify-center sm:justify-start">
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-accent sm:mb-4">
-                  <step.icon size={18} />
-                </span>
-                <span className="text-xs text-muted font-mono sm:hidden">
-                  0{i + 1}
-                </span>
+      <section className="px-6 py-20 border-t border-border/60">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="font-serif text-2xl sm:text-3xl text-center mb-14">
+            From URL to fix, in three steps
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 relative">
+            <div className="hidden sm:block absolute top-5 left-[16.6%] right-[16.6%] h-px bg-border" />
+            {STEPS.map((step, i) => (
+              <div key={step.title} className="relative text-center px-4">
+                <div className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-accent mb-5">
+                  <step.icon size={17} />
+                </div>
+                <h3 className="font-medium">{step.title}</h3>
+                <p className="text-sm text-muted leading-relaxed mt-1.5 max-w-[22ch] mx-auto">
+                  {step.body}
+                </p>
               </div>
-              <h3 className="font-medium mt-3 sm:mt-0">
-                <span className="hidden sm:inline text-muted font-mono text-xs mr-2">
-                  0{i + 1}
-                </span>
-                {step.title}
-              </h3>
-              <p className="text-sm text-muted leading-relaxed mt-1.5">
-                {step.body}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="px-6 py-14 bg-grid border-t border-border/60">
-        <p className="max-w-2xl mx-auto text-center text-muted mb-10">
-          Metaviewer goes beyond basic meta tag checking. Get detailed analysis,
-          actionable fixes, and beautiful previews.
-        </p>
+      <section className="px-6 py-20 bg-grid border-t border-border/60">
+        <div className="max-w-2xl mx-auto text-center mb-14">
+          <h2 className="font-serif text-2xl sm:text-3xl mb-3">
+            Beyond a pass/fail check
+          </h2>
+          <p className="text-muted leading-relaxed">
+            Metaviewer reads your page the way a platform&apos;s crawler
+            does, then hands back exactly what to change.
+          </p>
+        </div>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden border border-border">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
-            <div key={f.title} className="bg-background p-6">
-              <f.icon size={20} className="text-muted mb-6" />
+            <div
+              key={f.title}
+              className="group relative rounded-lg border border-border bg-background p-6 transition-colors hover:border-accent/40"
+            >
+              <div className="absolute top-2 left-2 h-2.5 w-2.5 border-l border-t border-border group-hover:border-accent/50 transition-colors" />
+              <div className="absolute top-2 right-2 h-2.5 w-2.5 border-r border-t border-border group-hover:border-accent/50 transition-colors" />
+              <div className="absolute bottom-2 left-2 h-2.5 w-2.5 border-l border-b border-border group-hover:border-accent/50 transition-colors" />
+              <div className="absolute bottom-2 right-2 h-2.5 w-2.5 border-r border-b border-border group-hover:border-accent/50 transition-colors" />
+              <f.icon size={19} className="text-accent mb-5" />
               <h3 className="font-medium mb-2">{f.title}</h3>
               <p className="text-sm text-muted leading-relaxed">{f.body}</p>
             </div>
@@ -155,10 +187,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="px-6 py-14 border-t border-border/60">
+      <section className="px-6 py-20 border-t border-border/60">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-muted mb-8">
-            Checked against every major platform
+          <h2 className="font-serif text-2xl sm:text-3xl mb-8">
+            Every platform crops differently
           </h2>
           <div className="flex flex-wrap justify-center gap-2.5">
             {PLATFORMS.map((p) => (
@@ -173,9 +205,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="px-6 pb-24">
-        <h2 className="text-center text-muted mb-8">
-          Everything you need to know about Metaviewer.
+      <section className="px-6 py-20 border-t border-border/60">
+        <h2 className="font-serif text-2xl sm:text-3xl text-center mb-10">
+          Questions people actually ask
         </h2>
         <div className="max-w-2xl mx-auto">
           <Faq />
@@ -226,7 +258,7 @@ export default function HomePage() {
               "linear-gradient(to bottom, black 0%, black 40%, transparent 90%)",
           }}
         >
-          <span className="text-[80px] sm:text-[120px] md:text-[200px] font-extrabold font-DM tracking-tighter text-fg/[0.04]">
+          <span className="text-[80px] sm:text-[120px] md:text-[200px] font-serif font-bold tracking-tighter text-fg/[0.04]">
             Metaviewer
           </span>
         </div>
