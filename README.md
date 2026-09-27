@@ -127,36 +127,16 @@ Worth knowing about before you rely on this for something critical:
 
 # Contributing
 
-1. Don't add a database or auth unless there's a genuinely good reason to - this stays local-first on purpose.
-2. New meta or technical fields flow in one direction: `types/index.ts` → `lib/extract.ts` → `lib/analyzer.ts` (plus `lib/checkFixes.ts` if it's a scored check) → the relevant results tab.
-3. Never hardcode colors - use the theme tokens (`text-fg`, `bg-background`, `bg-surface`, `border-border`, `text-muted`, `text-accent`).
-4. No new npm dependencies without a real reason - image dimension probing was deliberately hand-rolled instead of pulling in a library; keep that instinct unless something genuinely justifies the addition.
-5. Keep `lib/analyzer.ts` as the single scoring source of truth - tabs read `result.checks` / `result.categoryScores`, they never recompute pass/fail themselves.
+Contributions are welcome. Read **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup, architecture, and PR guidelines. All contributors are expected to follow the **[Code of Conduct](CODE_OF_CONDUCT.md)**.
+
+Quick rules:
+
+1. No database or auth - this stays local-first on purpose.
+2. New fields flow one direction: `types/index.ts` → `lib/extract.ts` → `lib/analyzer.ts` → results tab.
+3. Never hardcode colors - use theme tokens.
+4. No new npm dependencies without a real reason.
+5. `lib/analyzer.ts` is the single source of truth for scoring.
 
 # License (MIT)
 
-This project is licensed under the MIT License.
-
-```
-MIT License
-
-Copyright (c) 2026 Bilal Malik
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.

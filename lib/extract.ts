@@ -87,7 +87,7 @@ async function probeImage(url: string): Promise<ImageInfo | undefined> {
   try {
     const res = await fetch(url, {
       headers: { "User-Agent": USER_AGENT, Range: `bytes=0-${IMAGE_PROBE_BYTES - 1}` },
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(4000),
     });
     if (!res.ok && res.status !== 206) return undefined;
 
@@ -117,7 +117,7 @@ async function probeImage(url: string): Promise<ImageInfo | undefined> {
 
 async function checkRobotsTxt(origin: string): Promise<RobotsTxtInfo> {
   try {
-    const text = await safeFetchText(`${origin}/robots.txt`, 6000, MAX_AUX_BYTES);
+    const text = await safeFetchText(`${origin}/robots.txt`, 3000, MAX_AUX_BYTES);
     if (!text) return { checked: true, found: false, allowsIndexing: true };
     const blocksAll = /User-agent:\s*\*[\s\S]*?Disallow:\s*\/\s*(\r?\n|$)/i.test(text);
     return { checked: true, found: true, allowsIndexing: !blocksAll };
@@ -128,7 +128,7 @@ async function checkRobotsTxt(origin: string): Promise<RobotsTxtInfo> {
 
 async function checkSitemap(origin: string): Promise<SitemapInfo> {
   try {
-    const text = await safeFetchText(`${origin}/sitemap.xml`, 6000, MAX_AUX_BYTES);
+    const text = await safeFetchText(`${origin}/sitemap.xml`, 3000, MAX_AUX_BYTES);
     if (!text) return { checked: true, found: false };
     const matches = text.match(/<loc>/g);
     return { checked: true, found: true, urlCount: matches?.length ?? undefined };
@@ -160,7 +160,7 @@ function extractStructuredData($: cheerio.CheerioAPI): StructuredDataInfo {
         }
       }
     } catch {
-      // Malformed JSON-LD — ignore this block, keep scanning others.
+      // Malformed JSON-LD - ignore this block, keep scanning others.
     }
   });
 
@@ -183,7 +183,7 @@ export async function extractMeta(rawUrl: string): Promise<ExtractedMeta> {
     res = await fetch(url, {
       headers: { "User-Agent": USER_AGENT, Accept: "text/html,*/*" },
       redirect: "follow",
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(8000),
     });
   } catch (err) {
     throw new FetchError(

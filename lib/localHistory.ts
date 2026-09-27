@@ -1,11 +1,4 @@
-"use client";
-
 import type { AnalysisResult } from "@/types";
-
-// All persistence for Metaviewer lives in the browser (localStorage) for now.
-// There is no backend database  every function here is a thin wrapper
-// around localStorage so it's a single, obvious place to swap in Supabase
-// later (same function signatures, swap the body for `supabase.from(...)`).
 
 const RESULT_PREFIX = "metaviewer:result:";
 const HISTORY_KEY = "metaviewer:history";
@@ -22,7 +15,6 @@ export interface HistoryEntry {
   passCount: number;
   warningCount: number;
   errorCount: number;
-  /** Absolute URL of the analyzed site's own icon, when it had one. */
   favicon?: string;
   title?: string;
   description?: string;
@@ -52,7 +44,6 @@ function safeRemoveItem(key: string): boolean {
   }
 }
 
-/** Cache a full analysis result locally, keyed by its id. */
 export function saveResult(result: AnalysisResult): void {
   if (!isBrowser()) return;
   safeSetItem(RESULT_PREFIX + result.id, JSON.stringify(result));

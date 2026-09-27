@@ -1,25 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import {
-  ArrowLeft,
-  RefreshCw,
-  Share2,
-  Plus,
-  ExternalLink,
-  Loader2,
-  Check,
-  History,
-} from "lucide-react";
-import type { AnalysisResult } from "@/types";
-import { ScoreRing } from "@/components/ScoreRing";
-import { CategoryBars } from "@/components/CategoryBars";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { ExportMenu } from "@/components/ExportMenu";
-import { getResult, saveResult } from "@/lib/localHistory";
+import { useRef, useState } from "react";
+import { useResult } from "@/hooks/useResult";
+import { ResultHeader } from "@/components/results/ResultHeader";
+import { ScoreOverview } from "@/components/results/ScoreOverview";
 import { ResultTabs, type TabId } from "@/components/results/ResultTabs";
-import { Tooltip } from "@/components/Tooltip";
 import { PreviewsTab } from "@/components/results/PreviewsTab";
 import { BasicTab } from "@/components/results/BasicTab";
 import { OpenGraphTab } from "@/components/results/OpenGraphTab";
@@ -27,74 +12,24 @@ import { TwitterTab } from "@/components/results/TwitterTab";
 import { ImagesTab } from "@/components/results/ImagesTab";
 import { RawTab } from "@/components/results/RawTab";
 import { ScoreTab } from "@/components/results/ScoreTab";
+import { Loader2, XCircle } from "lucide-react";
 
 export default function ResultsPage() {
-  const params = useParams<{ id: string }>();
-  const router = useRouter();
-  const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { result, error, reanalyzing, copied, reanalyze, share, goBack, goHistory } = useResult();
   const [tab, setTab] = useState<TabId>("previews");
-  const [reanalyzing, setReanalyzing] = useState(false);
-  const [copied, setCopied] = useState(false);
   const scoreCardRef = useRef<HTMLDivElement>(null);
-  const errorTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    const cached = getResult(params.id);
-    if (cached) {
-      setResult(cached);
-    } else {
-      setError(
-        "We couldn't find this result in your browser's history. It may have been cleared, or opened on a different device."
-      );
-    }
-  }, [params.id]);
-
-  async function reanalyze() {
-    if (!result) return;
-    setReanalyzing(true);
-    try {
-      const res = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: result.finalUrl }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Re-analysis failed.");
-      saveResult(data);
-      router.replace(`/results/${data.id}`);
-      setResult(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Re-analysis failed.");
-      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
-      errorTimeoutRef.current = setTimeout(() => setError(null), 3000);
-    } finally {
-      setReanalyzing(false);
-    }
-  }
-
-  async function share() {
-    const url = window.location.href;
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      // clipboard unavailable - ignore
-    }
-  }
 
   if (error && !result) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-center px-6 rise-in">
-        <p className="text-muted max-w-sm">{error}</p>
-        <button onClick={() => router.push("/")} className="text-accent hover:underline text-sm">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-5 text-center px-6">
+        <span className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-red-500/10 text-red-400 border border-red-500/20">
+          <XCircle size={24} />
+        </span>
+        <div>
+          <p className="text-lg text-fg mb-1">Result not found</p>
+          <p className="text-sm text-muted max-w-sm">{error}</p>
+        </div>
+        <button onClick={goBack} className="h-10 px-5 rounded-lg bg-accent text-black font-medium text-sm hover:bg-accent-light transition-colors">
           Run a new analysis
         </button>
       </div>
@@ -103,132 +38,38 @@ export default function ResultsPage() {
 
   if (!result) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="animate-spin text-muted" />
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <Loader2 className="animate-spin text-accent" size={28} />
+        <p className="text-sm text-muted">Loading result…</p>
       </div>
     );
   }
 
-  const errorCount = result.checks.filter((c) => c.status === "error").length;
-  const warningCount = result.checks.filter((c) => c.status === "warning").length;
-  const passCount = result.checks.filter((c) => c.status === "pass").length;
-
   return (
     <div className="min-h-screen">
-      <header className="flex items-center justify-between px-6 py-3 border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
-        <div className="w-full max-w-[1100px] mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3 min-w-0  ">
-          <Tooltip label="Go back">
-            <button
-              onClick={() => router.push("/")}
-              aria-label="Go back"
-              className="text-muted hover:text-fg transition-colors"
-            >
-              <ArrowLeft size={18} />
-            </button>
-          </Tooltip>
-          <a
-            href={result.finalUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Open ${result.finalUrl} in new tab`}
-            className="flex items-center gap-1.5 text-sm truncate hover:underline"
-          >
-            {result.finalUrl.replace(/^https?:\/\//, "")}
-            <ExternalLink size={13} className="shrink-0" />
-          </a>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <Tooltip label="Re-analyze this URL">
-            <button
-              onClick={reanalyze}
-              disabled={reanalyzing}
-              className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border shadow-xs text-sm text-muted hover:text-fg transition-colors disabled:opacity-60"
-            >
-              {reanalyzing ? (
-                <Loader2 size={14} className="animate-spin" />
-              ) : (
-                <RefreshCw size={14} />
-              )}
-              Re-analyze
-            </button>
-          </Tooltip>
-          <Tooltip label={copied ? "Link copied!" : "Share this result"}>
-            <button
-              onClick={share}
-              className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border shadow-xs text-sm text-muted hover:text-fg transition-colors"
-            >
-              {copied ? (
-                <Check size={14} className="text-emerald-400" />
-              ) : (
-                <Share2 size={14} />
-              )}
-              {copied ? "Copied" : "Share"}
-            </button>
-          </Tooltip>
-          <ExportMenu result={result} captureRef={scoreCardRef} />
-          <Tooltip label="View history">
-            <button
-              onClick={() => router.push("/history")}
-              className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border shadow-xs text-sm text-muted hover:text-fg transition-colors"
-            >
-              <History size={14} />
-              History
-            </button>
-          </Tooltip>
-          <Tooltip label="Toggle theme">
-            <ThemeToggle />
-          </Tooltip>
-          <button
-            onClick={() => router.push("/")}
-            className="flex items-center gap-1.5 h-9 px-3 rounded-lg bg-fg shadow-xs text-background text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            <Plus size={14} /> New Analysis
-          </button>
-        </div>
-        </div>
-      </header>
+      <ResultHeader
+        result={result}
+        reanalyzing={reanalyzing}
+        copied={copied}
+        scoreCardRef={scoreCardRef}
+        onReanalyze={reanalyze}
+        onShare={share}
+        onGoBack={goBack}
+        onGoHistory={goHistory}
+      />
 
       {error && result && (
-        <div className="px-6 pt-4 tab-panel">
-          <p className="text-sm text-red-400 text-center">{error}</p>
+        <div className="px-6 pt-4 text-center">
+          <p className="text-sm text-red-400">{error}</p>
         </div>
       )}
 
       <main className="px-6 py-6 max-w-6xl mx-auto">
-        <div
-          ref={scoreCardRef}
-          className="rounded-xl border border-border bg-surface p-6 mb-5 rise-in"
-        >
-          <div className="flex flex-wrap items-center gap-6 justify-between">
-            <div className="flex items-center gap-5">
-              <ScoreRing score={result.totalScore} grade={result.grade} />
-              <div>
-                <p className="text-lg">{result.summary}</p>
-                <p className="text-xs text-muted mt-1">
-                  {result.finalUrl.replace(/^https?:\/\//, "")} · checked{" "}
-                  {new Date(result.fetchedAt).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-6 text-sm">
-              <span className="flex items-center gap-1.5 text-emerald-400">
-                ✓ {passCount}
-              </span>
-              <span className="flex items-center gap-1.5 text-amber-400">
-                ⚠ {warningCount}
-              </span>
-              <span className="flex items-center gap-1.5 text-red-400">
-                ✕ {errorCount}
-              </span>
-            </div>
-          </div>
-          <CategoryBars categories={result.categoryScores} />
-        </div>
+        <ScoreOverview result={result} cardRef={scoreCardRef} />
 
         <ResultTabs active={tab} onChange={setTab} />
 
-        <div key={tab} className="tab-panel">
+        <div key={tab}>
           {tab === "previews" && <PreviewsTab result={result} />}
           {tab === "basic" && <BasicTab result={result} />}
           {tab === "opengraph" && <OpenGraphTab result={result} />}

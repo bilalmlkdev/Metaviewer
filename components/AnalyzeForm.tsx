@@ -3,24 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Link2, ChevronRight, Loader2, AlertCircle } from "lucide-react";
+import { isValidUrl } from "@/lib/url";
 
 const EXAMPLES = ["stripe.com", "vercel.com", "linear.app", "bilalmlkdev.vercel.app"];
-
-function isValidUrl(value: string): boolean {
-  const v = value.trim();
-  if (!v) return false;
-  if (/\s/.test(v)) return false;
-  const withProtocol = /^https?:\/\//i.test(v) ? v : `https://${v}`;
-  try {
-    const u = new URL(withProtocol);
-    if (!u.hostname.includes(".")) return false;
-    if (/\.\./.test(u.hostname)) return false;
-    if (/^[\d.]+$/.test(u.hostname)) return false;
-    return /^[\w-]+(\.[\w-]+)+(:\d+)?(\/.*)?$/.test(u.hostname + u.pathname);
-  } catch {
-    return false;
-  }
-}
 
 export function AnalyzeForm() {
   const [url, setUrl] = useState("");

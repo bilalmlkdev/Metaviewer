@@ -11,10 +11,12 @@ export function Tooltip({
   label,
   children,
   side = "top",
+  className,
 }: {
   label: string;
   children: React.ReactNode;
   side?: "top" | "bottom";
+  className?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [actualSide, setActualSide] = useState<"top" | "bottom">(side);
@@ -46,7 +48,7 @@ export function Tooltip({
   return (
     <span
       ref={triggerRef}
-      className="relative inline-flex"
+      className={clsx("relative inline-flex", className)}
       onMouseEnter={show}
       onMouseLeave={hide}
       onFocus={show}

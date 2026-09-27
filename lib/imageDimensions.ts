@@ -1,7 +1,7 @@
 /**
  * Minimal, dependency-free image dimension probing from raw bytes.
  * Supports PNG, GIF, JPEG, WebP (VP8/VP8L/VP8X), BMP, and ICO (first entry).
- * Only reads header bytes — never decodes full image contents.
+ * Only reads header bytes - never decodes full image contents.
  */
 
 export interface ProbedImage {
